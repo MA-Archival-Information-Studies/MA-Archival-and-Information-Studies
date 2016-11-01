@@ -21,7 +21,7 @@ May be others
 
 ---
 
-![Week to Week](./Analytics-Schedule.jpg "WtW")
+![inline 44%](./Analytics-Schedule.jpg)
 
 ---
 
@@ -44,18 +44,14 @@ The three assignments will cover (1) proposal of methods (pass/fail), (2) discus
 ---
 
 **Assignment 1:**
-
-- Written proposal of methods for analysis.
+    - Written proposal of methods for analysis.
 	
 **Assignment 2:**
-
-- Individual written discussion of analysis.
+    - Individual written discussion of analysis.
 
 **Assignment 3:**
-
-* Presentation of Analysis
-Assessment criteria:
-
+    - Presentation of Analysis
+*Assessment criteria:*
     * understanding of the question;
     * completeness;
     * clarity;
@@ -71,6 +67,14 @@ Assessment criteria:
 * 1st Assignment  =  10%
 * 2nd Assignment  =  10%
 * Report and Presentation  =  40%
+
+---
+
+# Weekly Assessments
+
+Every Week in the first Block, in addition to the readings, you will be asked to do a short and simple assignment. These assignements are not marked, but are for your benefit and may be necessary for your completion of the assessed assignements. <br> **Please do them.**
+
+The assignments will help you understand the next lesson better. Don't worry about doing them absolutely correctly, but use these weekly assignments as a trial run for the next lesson. Time will be given at the beginning of each lesson for questions about the assignments.
 
 ---
 
@@ -92,7 +96,7 @@ Classes will always include some talking (buy us) and some discussion (with all 
 
 ---
 
-# GitHuib
+# GitHub
 
 ## Version Control System
 
@@ -106,7 +110,7 @@ Classes will always include some talking (buy us) and some discussion (with all 
 
 ---
 
-# GitHuib
+# GitHub
 
 Characteristics
 
@@ -125,11 +129,13 @@ Characteristics
 
 ---
 
-# GitHuib
+# GitHub
 
 ## https://github.com/
 
 ---
+
+# Learning Git and GitHub
 
 [Learning GitHub] (https://guides.github.com/activities/hello-world/) and setting up your first repository
     - https://guides.github.com/activities/hello-world/
@@ -142,6 +148,56 @@ For the ambitious:
 
 ---
 
+## Personal GitHub Repositories
+
+- **You will all register with GitHub and create your own Repository**
+    - It is free
+    - you will use your repository for all your assignments
+    - you can use it for your personal website
+
+
+---
+
+# [The Course GitHub site] (https://github.com/MA-Archival-Information-Studies/MA-Archival-and-Information-Studies)
+
+- Use this site rather than BlackBoard
+- All the lesson markdown will be put here
+- You will use your own GitHub Repository to store and submit your assignments
+
+**https://github.com/MA-Archival-Information-Studies/MA-Archival-and-Information-Studies**
+
+---
+
 # Markdown
 
 ---
+
+## What is Markdown
+
+**This Presentation is written in Markdown**
+
+Markdown is a Mark-up syntax, like HTML, <br> for writing rich text in Git and on-line
+
+^ show markdown cheat sheet
+
+---
+
+# Markdown
+
+There is the list of links for GitHub in the Course GitHub Repository
+There is also a folder of Markdown tudorials.
+
+---
+
+# ASSIGNMENT FOR NEXT WEEK
+
+1. Register with GitHub and create a personal Repository
+
+1. Write a short document describing your GitHub Repository **in Markdown**
+
+1. Try to create some branches, some folders and upload some files into them including your markdown
+
+---
+
+# Questions?
+
