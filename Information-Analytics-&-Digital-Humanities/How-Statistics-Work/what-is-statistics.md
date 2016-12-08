@@ -11,16 +11,16 @@ The term was popularised in United States by Mark Twain (among others), who attr
 
 I'm not going into the history, unusually, as there is too little time. However, if you are interested, I would recommend the following people to look into.
 
-- Thomas Bayes ([Wikipedia page: ](https://en.wikipedia.org/wiki/Thomas_Bayes)
-- Francis Galton ([Wikipedia page: ](https://en.wikipedia.org/wiki/Francis_Galton)
-- Karl Pearson ([Wikipedia page: ](https://en.wikipedia.org/wiki/Karl_Pearson)
+- Thomas Bayes: [Wikipedia page: ](https://en.wikipedia.org/wiki/Thomas_Bayes)
+- Francis Galton: [Wikipedia page: ](https://en.wikipedia.org/wiki/Francis_Galton)
+- Karl Pearson: [Wikipedia page: ](https://en.wikipedia.org/wiki/Karl_Pearson)
 
 ---
 
 # Two types of statistics
 
-- Descriptive (dealing with populations)
-- Probabilistic (dealing with samples of or individuals within populations)
+- **Descriptive** (dealing with populations)
+- **Probabilistic** (dealing with samples of or individuals within populations)
 
 ---
 
@@ -28,12 +28,11 @@ I'm not going into the history, unusually, as there is too little time. However,
 
 **Categorical**
 
-```use graphs to show descriptive statistics```
+use graphs to show descriptive statistics
 
 **Numeric**
 
-```graphs to show the difference of presenting numerical data <br>
-how categorising numeric data is done and how it can be misleading```
+graphs to show the difference of presenting numerical data how categorising numeric data is done and how it can be misleading
 
 ---
 
@@ -41,12 +40,11 @@ how categorising numeric data is done and how it can be misleading```
 
 **Numeric**
 
-```two variable scatter graphs. linear, non-linear and unrelated <br>
-importance of scales```
+two variable scatter graphs. linear, non-linear and unrelated importance of scales
 
 **Categorical**
 
-```categorised bar charts```
+categorised bar charts
 
 ---
 
