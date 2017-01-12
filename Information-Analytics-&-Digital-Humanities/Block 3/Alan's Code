@@ -1,0 +1,11 @@
+Code for RStudio analysis from Alan Berg
+
+
+old.dir.txt<-"/home/alan/Desktop/TEST/LAK-2014"
+new.dir.txt<-"/home/alan/Desktop/TEST/LAK-2016"
+dir.for.graphics<-"/home/alan/Desktop/TEST/Graphics"
+myname<-"LAK.2016-2014."
+extraStopWords<-c("doi")
+emerging.concepts(old.dir.txt,new.dir.txt,dir.for.graphics,myname,100,extraStopWords)
+
+https://docs.google.com/presentation/d/1dINADK0RFOuhnheXfd8-_W5CRXGQXOVpvzfW0OjaAjM/edit?usp=sharing
