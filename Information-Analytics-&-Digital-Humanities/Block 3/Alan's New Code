@@ -1,0 +1,174 @@
+# Look in two datasources to two different corpus.
+# Show basic manipulations to get to a list of concepts
+
+
+# Load Libraries
+library(tm)
+library("SnowballC")
+library("wordcloud")
+library("RColorBrewer")
+library(cluster)
+library(topicmodels)
+library(tidytext)
+library(dplyr)
+library(ggplot2)
+library(Rgraphviz)
+library(NLP)
+
+# Nasty installation method R
+# Debian variant Linux
+#sudo apt-get install libgsl0-dev
+#install.packages("topicmodels")
+#install.packages("OAIHarvester")
+#install.packages("tidytext")
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("Rgraphviz") 
+
+# Functions
+#
+getDTM <- function(mydir, extra) {
+  # Tospace function defined here
+  #https://eight2late.wordpress.com/2015/05/27/a-gentle-introduction-to-text-mining-using-r/
+  toSpace <- content_transformer(function(x, pattern) {return (gsub(pattern, " ", x))})
+  docsRelevant <- Corpus(DirSource(mydir))
+  
+  docsRelevant <- tm_map(docsRelevant, toSpace, "-")
+  docsRelevant <- tm_map(docsRelevant, toSpace, ":")
+  docsRelevant <- tm_map(docsRelevant, removePunctuation)
+  docsRelevant <- tm_map(docsRelevant, content_transformer(tolower))
+  docsRelevant <- tm_map(docsRelevant, removeNumbers)
+  docsRelevant <- tm_map(docsRelevant, removeWords, stopwords("english"))
+  docsRelevant <- tm_map(docsRelevant, removeWords, extra)
+  docsRelevant <- tm_map(docsRelevant, toSpace, "â")
+  docsRelevant <- tm_map(docsRelevant, toSpace, "â")
+  docsRelevant <- tm_map(docsRelevant, toSpace, " -")
+  docsRelevant <- tm_map(docsRelevant, stripWhitespace)
+  
+  # Stemming and then destemming, costs a lot of time
+  #docsRelevant_copy<-docsRelevant
+  #docsRelevant <- tm_map(docsRelevant, stemDocument)
+  #docsRelevant <- tm_map(docsRelevant, content_transformer(stemCompletion),dictionary=docsRelevant_copy, lazy=TRUE)
+  
+  # Explain TF IDF
+  # Note LDA topic modeling does not work needs frequencies.
+  #dtmrRelevant <- DocumentTermMatrix(docsRelevant, control = list(weighting = weightTfIdf, wordLengths=c(3, 25)))
+  dtmrRelevant <- DocumentTermMatrix(docsRelevant, control = list(wordLengths=c(3, 25)))
+  return(dtmrRelevant)
+}
+
+generateWordCloud <- function(dtm, dir.graphics, name.graphics) {
+  freqRelevant <- colSums(as.matrix(dtm))
+  ordRelevant <- order(freqRelevant, decreasing = TRUE)
+  set.seed(2345)
+  myfile <- paste(dir.graphics, "/", name.graphics, ".png", sep = "")
+  cat("\nExporting wordfile file to", myfile)
+  png(filename = myfile, 1024, 1024)
+  wordcloud(
+    names(freqRelevant),
+    freqRelevant,
+    max.words = 100,
+    colors = brewer.pal(8, "Dark2")
+  )
+  dev.off()
+}
+
+createStopList <- function(dtm, dir, nameGraphics, num) {
+  freqRelevant <- colSums(as.matrix(dtm))
+  ordRelevant <- order(freqRelevant, decreasing = TRUE)
+  myfile <- paste(dir, "/",nameGraphics,".csv", sep = "")
+  cat("\nExporting stoplist to", myfile)
+  myStopList <- names(freqRelevant[head(ordRelevant, n = num)])
+  write.csv2(myStopList, file = myfile, quote = F)
+  return(myStopList)
+}
+
+generateCluster <- function(dtm, dir, nameGraphics) {
+  myfile <- paste(dir, "/", nameGraphics, ".png", sep = "")
+  dtmss <- removeSparseTerms(dtm, 0.5) # Remove some empty space.
+  d <- dist(t(dtmss), method = "euclidian")
+  png(filename = myfile, 4084, 840)
+  fit <- hclust(d = d, method = "ward.D")
+  plot.new()
+  plot(fit, hang = -1)
+  groups <- cutree(fit, k = 5)
+  myfile <- paste(dir, "/", nameGraphics, ".csv", sep = "")
+  cat("\nExporting emerging concepts to", myfile)
+  write.csv2(groups, file = myfile, quote = F)
+  rect.hclust(fit, k = 5, border = "red")
+  dev.off()
+}
+
+# See: http://tidytextmining.com/topicmodeling.html
+generateTopic<-function(dtm,dir, nameGraphics,clusters){
+  myfile <- paste(dir, "/", nameGraphics, ".png", sep = "")
+  cat("\nGenerating topic models: May take a few seconds")
+  topics_lda<-LDA(dtm, k = clusters, control = list(seed = 2345))
+  topics_lda_td <- tidytext:::tidy.LDA(topics_lda)
+  top_terms <- topics_lda_td %>%
+    group_by(topic) %>%
+    top_n(10, beta) %>%
+    ungroup() %>%
+    arrange(topic, -beta)
+  top_terms %>%
+    mutate(term = reorder(term, beta)) %>%
+    ggplot(aes(term, beta, fill = factor(topic))) +
+    geom_bar(alpha = 0.8, stat = "identity", show.legend = FALSE) +
+    facet_wrap(~ topic, scales = "free") +
+    coord_flip()
+    ggsave(file=myfile)
+}
+
+# ChangeMe
+#
+# Corpus OLD directory
+old.dir.txt <- "/Users/Larissa/Documents/information_project/Primary"
+# Corpus NEW directory
+new.dir.txt <- "/Users/Larissa/Documents/information_project/Secondary"
+# Directory for Graphics
+dir.for.graphics <- "/Users/Larissa/Documents/information_project/Graphics"
+# Add your own extra stop words
+extraStopWords <- c("doi","ddpp","bkt","eas","levelchir")
+# Number of popular words from OLD corpus to remove from new
+numberStopwords = 100
+
+
+# MAIN
+#
+oldDTM <- getDTM(old.dir.txt, extraStopWords)
+newDTM <- getDTM(new.dir.txt, extraStopWords)
+oldStop <- createStopList(oldDTM, dir.for.graphics, "oldStopwords",numberStopwords)
+newStop <- createStopList(newDTM, dir.for.graphics, "newStopwords",numberStopwords)
+newDTMextra <- getDTM(new.dir.txt, c(extraStopWords, oldStop))
+extraStop <- createStopList(newDTMextra , dir.for.graphics, "extraStopwords",numberStopwords)
+generateWordCloud(oldDTM, dir.for.graphics, "old")
+generateWordCloud(oldDTM, dir.for.graphics, "new")
+generateWordCloud(newDTMextra, dir.for.graphics, "Extra")
+
+# OK different ways to skin the same cat
+generateCluster(newDTMextra,dir.for.graphics, "ExtraCluster")
+generateTopic(newDTMextra,dir.for.graphics, "LDA", 4)
+
+## Extra examples
+#
+# Should turn into functions for later reuse.
+
+# Word associations
+associate<-findAssocs(newDTMextra, "mooc", 0.55)
+cat("Number of words associated with MOOC are", length(associate$mooc))
+associate
+
+# word networks, only an example.
+# You would have to fiddle with the constants for your particular corpus
+freq.terms <- findFreqTerms(newDTMextra, lowfreq = 200)
+plot(newDTMextra, term = freq.terms, corThreshold = 0.28, weighting = T, 
+     attrs=list(node=list(width=20, fontsize=50, fontcolor="darkblue", color="darkred")))
+
+#https://rstudio-pubs-static.s3.amazonaws.com/31867_8236987cf0a8444e962ccd2aec46d9c3.html
+# library(fpc)   
+# library(cluster)  
+# dtms <- removeSparseTerms(newDTMextra, 0.2) # Prepare the data (max 15% empty space)   
+# d <- dist(t(dtms), method="minkowski")   
+# ?dist
+# kfit <- kmeans(d, 3)   
+# clusplot(as.matrix(d), kfit$cluster, color=T, shade=F, labels=2, lines=1, main="Example only")   
+
